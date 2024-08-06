@@ -2,8 +2,10 @@ import { StyleSheet, Text, View, Image, ScrollView, TouchableOpacity } from 'rea
 import React, { useEffect, useState } from 'react';
 import { ProductDetailScreenNavigationProp } from '../../navigation/type';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
-import { useAppDispatch, useAppSelector } from '../../redux/store/store';
+import { RootState, useAppDispatch, useAppSelector } from '../../redux/store/store';
 import { getProduct } from '../../redux/slicers/productSlice/actions';
+import { addToCart, getCartList } from '../../redux/slicers/cartSlice/actions';
+import { useSelector } from 'react-redux';
 
 const ProductScreen = ({
   navigation,
@@ -12,6 +14,7 @@ const ProductScreen = ({
   const dispatch = useAppDispatch();
   const { product_id } = route.params;
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
+  const [addedToCart, setAddedToCart] = useState(false);
 
   useEffect(() => {
     dispatch(getProduct({ product_id }));
@@ -19,6 +22,35 @@ const ProductScreen = ({
 
   const productResponse = useAppSelector(state => state.product.productData);
   const product = productResponse?.data;
+  
+
+  const accessToken = useSelector((state: RootState) => state.auth.user?.data?.access_token);
+
+  async function handleAddToCart() {
+    try {
+      console.log('add to cart start')
+      await dispatch(
+        addToCart({
+          access_token: accessToken,
+          product_id: product_id,
+          quantity: 1,
+        }),
+      ).unwrap();
+      setAddedToCart(true);
+      dispatch(getCartList({access_token: accessToken}));
+      setTimeout(() => {
+        setAddedToCart(false);
+      }, 2000);
+
+      console.log('add cart done');
+      navigation.navigate('CartNavigator');
+    } catch (error) {
+      console.log(error);
+      setAddedToCart(false);
+
+    }
+  }
+
 
   if (!product) {
     return (
@@ -95,7 +127,7 @@ const ProductScreen = ({
           </View>
         </View>
         <View style={styles.buttonContainer}>
-          <TouchableOpacity style={styles.addToCartButton}>
+          <TouchableOpacity style={styles.addToCartButton} onPress={()=>handleAddToCart()}>
             <Text style={styles.buttonText}>Add to Cart</Text>
           </TouchableOpacity>
           <TouchableOpacity style={styles.buyNowButton}>

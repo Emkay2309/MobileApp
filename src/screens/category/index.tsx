@@ -102,7 +102,7 @@ const styles = StyleSheet.create({
         marginTop: 10,
         bottom: 0,
         marginLeft: 70,
-        
+        objectFit : 'contain',
     },
     imgCon: {
 
