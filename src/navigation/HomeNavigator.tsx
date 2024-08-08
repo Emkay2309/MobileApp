@@ -16,8 +16,7 @@ const HomeNavigator = () => {
         <Stack.Screen name='Home' component={HomeScreen} />
         <Stack.Screen name='Category' component={CategoryList} />
         <Stack.Screen name='ProductDetail' component={ProductScreen} />
-        <Stack.Screen name="CartNavigator"
-        component={CartNavigator} />
+        <Stack.Screen name="CartNavigator"component={CartNavigator} />
     </Stack.Navigator>
   )
 }

@@ -8,12 +8,7 @@ import {
 } from './type';
 import Toast from 'react-native-simple-toast';
 
-/**
- * @author Meghraj Vilas Lot
- * @param {IPlaceOrderParams}
- * @description performs api call for placing order
- * @returns success data or error
- */
+
 
 export const placeOrder = createAsyncThunk(
   'order/placeOrder',
@@ -38,12 +33,7 @@ export const placeOrder = createAsyncThunk(
   },
 );
 
-/**
- * @author Meghraj Vilas Lot
- * @param {IGetOrderDetailsParams}
- * @description performs api call for fetching all orders list
- * @returns order list data on success or error
- */
+
 
 export const getOrderList = createAsyncThunk(
   'order/getOrderList',
@@ -62,12 +52,6 @@ export const getOrderList = createAsyncThunk(
   },
 );
 
-/**
- * @author Meghraj Vilas Lot
- * @param {IGetOrderDetailsParams}
- * @description performs api call for fetching data of a specific order
- * @returns order deatils data on success or error
- */
 
 export const getOrderDetails = createAsyncThunk(
   'order/getOrderDetails',

@@ -4,10 +4,12 @@ import InputBox from '../../components/Inputbox/InputBox';
 import COLORS from '../../assets/colors';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Button from '../../components/button/Button';
-import { SafeAreaView, StyleSheet, Text, View } from 'react-native';
+import { Alert, SafeAreaView, StyleSheet, Text, View } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import { useAppDispatch, useAppSelector } from '../../redux/store/store';
 import { signInUser } from '../../redux/slicers/authSlice/actions';
+import { styles } from './style';
+import Toast from 'react-native-simple-toast';
 
 export interface LoginType {
     email: string;
@@ -20,25 +22,55 @@ const Login = ({ navigation }: LoginScreenNavigationProp) => {
     const [loading, setLoading] = useState(false);
     const dispatch = useAppDispatch();
 
-    const login = async () => {
-        try {
-          setLoading(true);
-          const response = await dispatch(signInUser(inputs)).unwrap();
-          await AsyncStorage.setItem('access_token', response.data.access_token);
-          console.log(response);
-          navigation.navigate('TabNav');
-          setLoading(false);
-        } catch (error) {
-          console.error('Login failed', error);
-        } finally {
-          setLoading(false);
+    const validate = () => {
+        let valid = true;
+        const newErrors: { [key: string]: string | null } = {};
+
+        // Email validation
+        if (!inputs.email) {
+            newErrors.email = "Please input email";
+            valid = false;
+        } else if (!/\S+@\S+\.\S+/.test(inputs.email)) {
+            newErrors.email = "Please input a valid email";
+            valid = false;
         }
-      };
-      
+
+        // Password validation
+        if (!inputs.password) {
+            newErrors.password = "Please input password";
+            valid = false;
+        } else if (inputs.password.length < 6) {
+            newErrors.password = "Password should be at least 6 characters long";
+            valid = false;
+        }
+
+        setErrors(newErrors);
+        return valid;
+    };
+
+    const login = async () => {
+        if (validate()) {
+            try {
+                setLoading(true);
+                console.log('checkInput' , inputs)
+                const response = await dispatch(signInUser(inputs)).unwrap();
+                //await AsyncStorage.setItem('access_token', response.data.access_token);
+                console.log('response ---> ' , response);
+                navigation.navigate('TabNav');
+                setLoading(false);
+            } catch (error : any ) {
+                Toast.show(error.message || 'Enter correct email and password', Toast.SHORT);
+            } finally {
+                setLoading(false);
+            }
+        }
+        else {
+            Alert.alert('Invalid Email and password');
+        }
+    };
 
     const handleOnchange = (text: string, input: keyof LoginType) => {
         setInputs(prevState => ({ ...prevState, [input]: text }));
-
     };
 
     const handleError = (error: string | null, input: keyof LoginType) => {
@@ -59,32 +91,34 @@ const Login = ({ navigation }: LoginScreenNavigationProp) => {
                     </View>
 
                     <View style={styles.inputContainer}>
-                        <View style={styles.inputs}>
-                            <InputBox
-                                onChangeText={text => handleOnchange(text, 'email')}
-                                onFocus={() => handleError(null, 'email')}
-                                iconName="email-outline"
-                                label="Email"
-                                placeholder="Email address"
-                                error={errors.email}
+                        <View>
 
-                            />
-                        </View>
+                            <View style={styles.inputs}>
+                                <InputBox
+                                    onChangeText={text => handleOnchange(text, 'email')}
+                                    onFocus={() => handleError(null, 'email')}
+                                    iconName="email-outline"
+                                    label="Email"
+                                    placeholder="Email address"
+                                    error={errors.email}
+                                />
+                            </View>
 
-                        <View style={styles.inputs}>
-                            <InputBox
-                                onChangeText={text => handleOnchange(text, 'password')}
-                                onFocus={() => handleError(null, 'password')}
-                                iconName="lock-outline"
-                                label="Password"
-                                placeholder="Enter password"
-                                error={errors.password}
-                                password
-                            />
+                            <View style={styles.inputs}>
+                                <InputBox
+                                    onChangeText={text => handleOnchange(text, 'password')}
+                                    onFocus={() => handleError(null, 'password')}
+                                    iconName="lock-outline"
+                                    label="Password"
+                                    placeholder="Enter password"
+                                    error={errors.password}
+                                    password
+                                />
+                            </View>
                         </View>
 
                         <View style={styles.footer}>
-                            <Button title={loading === true ? "Loading" : "Log In"} onPress={login} />
+                            <Button title={loading ? "Loading" : "Log In"} onPress={login} />
                             <Text
                                 onPress={() => navigation.navigate('Signup')}
                                 style={styles.registerText}
@@ -95,60 +129,10 @@ const Login = ({ navigation }: LoginScreenNavigationProp) => {
                         </View>
                     </View>
                 </View>
-
             </LinearGradient>
         </SafeAreaView>
     );
 };
 
-const styles = StyleSheet.create({
-    inputs: {
-        marginTop: 20
-    },
-    safeArea: {
-        flex: 1,
-    },
-    heading: {
-        justifyContent: 'center',
-        alignItems: 'center'
-    },
-    container: {
-        paddingTop: 50,
-        paddingHorizontal: 20,
-        justifyContent: 'center',
-
-    },
-    footer: {
-        marginTop: 140,
-        justifyContent: 'center',
-        alignItems: 'center'
-    },
-
-    title: {
-        color: COLORS.black,
-        fontSize: 50,
-        fontWeight: 'bold',
-    },
-    subtitle: {
-        color: COLORS.grey,
-        fontSize: 18,
-        marginVertical: 10,
-    },
-    inputContainer: {
-        marginVertical: 20,
-
-    },
-    registerText: {
-        color: COLORS.black,
-        fontWeight: 'bold',
-        textAlign: 'center',
-        fontSize: 20,
-    },
-    gradient: {
-        flex: 1
-    },
-});
-
-
-
 export default Login;
+

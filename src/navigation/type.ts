@@ -12,6 +12,12 @@ export type RootStackParamList = {
 
   Dashboard : undefined;
 
+  //checking with new navigations
+  BottomNavigator : undefined;
+  AppNavigator : undefined;
+  AuthNavigator : undefined;
+  CheckNavigator : undefined;
+
   CategoryList : {
     product_category_id: number | undefined;
     categoryName: string | undefined;
@@ -25,6 +31,16 @@ export type RootStackParamList = {
     product_id : number; 
   };
 
+  OrderList: {
+    address : string;
+  }
+
+  OrderScreen: {
+    address : string;
+  }
+
+  AddressList : undefined;
+
   HomeNavigator: undefined;
   CartNavigator: undefined;
   ProfileNavigator: undefined;
@@ -35,16 +51,43 @@ export type RootStackParamList = {
   ChangePassword: undefined;
   UpdateDetails: undefined;
   Profile: undefined;
-  OrderList: undefined;
+  
   OrderDetail: {order_id: number; created: string};
   Address: undefined;
   AddAddress: {id: string};
   Payment: {id: string};
 };
 
+//check navigation types
+export type BottomTabNavScreenNavigationProp = NativeStackScreenProps<
+  RootStackParamList,
+  'BottomNavigator'
+>;
+
+export type AuthNavScreenNavigationProp = NativeStackScreenProps<
+  RootStackParamList,
+  'BottomNavigator'
+>;
+
+export type AppNavScreenNavigationProp = NativeStackScreenProps<
+  RootStackParamList,
+  'BottomNavigator'
+>;
+
+export type CheckNavScreenNavigationProp = NativeStackScreenProps<
+  RootStackParamList,
+  'BottomNavigator'
+>;
+//check navigation types
+
 export type OnboardScreenNavigationProp = NativeStackScreenProps<
   RootStackParamList,
   'Onboard'
+>;
+
+export type DashboardNavigationProp = NativeStackScreenProps<
+  RootStackParamList,
+  'Dashboard'
 >;
 
 export type SignupScreenNavigationProp = NativeStackScreenProps<
@@ -57,6 +100,12 @@ export type ForgotPasswordScreenNavigationProp = NativeStackScreenProps<
   'ForgotPassword'
 >;
 
+export type AddressListScreenNavigationProp = NativeStackScreenProps<
+  RootStackParamList,
+  'AddressList'
+>;
+
+
 export type TabNavScreenNavigationProp = NativeStackScreenProps<
   RootStackParamList,
   'TabNav'
@@ -66,6 +115,8 @@ export type DrawerNavScreenNavigationProp = NativeStackScreenProps<
   RootStackParamList,
   'DrawerNavigator'
 >;
+
+
 
 export type MainStackNavigatorScreenNavigationProp = NativeStackScreenProps<
   RootStackParamList,
@@ -130,6 +181,11 @@ export type UpdateDetailsScreenNavigationProp = NativeStackScreenProps<
 export type OrderListScreenNavigationProp = NativeStackScreenProps<
   RootStackParamList,
   'OrderList'
+>;
+
+export type OrderScreenNavigationProp = NativeStackScreenProps<
+  RootStackParamList,
+  'OrderScreen'
 >;
 
 export type OrderDetailScreenNavigationProp = NativeStackScreenProps<

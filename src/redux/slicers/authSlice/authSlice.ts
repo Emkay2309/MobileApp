@@ -136,7 +136,8 @@ export const authSlice = createSlice({
       .addCase(updateDetails.rejected, (state, action) => {
         state.isLoading = false;
         state.isError = true;
-      });
+      })
+      
   },
 });
 export default authSlice.reducer;

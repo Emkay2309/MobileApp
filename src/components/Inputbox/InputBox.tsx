@@ -29,6 +29,7 @@ const InputBox: React.FC<InputProps> = ({ label, iconName, error, password, onFo
       >
         <Icon name={iconName} style={{ color: 'black', fontSize: 25, marginRight: 10 }} />
         <TextInput
+          placeholderTextColor={'grey'}
           autoCorrect={false}
           onFocus={() => {
             onFocus();

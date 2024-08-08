@@ -1,7 +1,8 @@
 import { Button, Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { ScrollView } from 'react-native-gesture-handler'
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import FontAwesome6 from 'react-native-vector-icons/FontAwesome6'
 import CustomButton from '../../components/customButton/CustomButton';
 import Animated, { useAnimatedStyle, useSharedValue, withSpring } from 'react-native-reanimated';
 import NewArrivalCard from './components/newArrivalCard';
@@ -12,11 +13,37 @@ import Promotion from '../commonComponent/Promotion';
 import Support from '../commonComponent/Support';
 import Footer from '../commonComponent/Footer';
 import BestSellerList from '../commonComponent/BestSellerList';
+import { useSelector } from 'react-redux';
+import { RootState } from '../../redux/store/store';
+import { useNavigation } from '@react-navigation/native';
+import { CartNavigatorScreenNavigationProp, RootStackParamList } from '../../navigation/type';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 
 const Dashboard = () => {
+    const navigation = useNavigation<CartNavigatorScreenNavigationProp['navigation']>();
+
+    const handleCart = () => {
+        navigation.navigate('CartNavigator');
+    }
+    const { cart } = useSelector((state: RootState) => state.cart);
+    let total = cart?.count;
+    if(total === undefined) {
+        total = 0;
+    }
     const handleButtonPress = () => {
         console.log('go to shopping list')
+    }
+    const [showOffer, setshowOffer] = useState<boolean>(true);
+
+    const handleOffer = () => {
+        setshowOffer(false);
+        console.log('offer')
+    }
+
+    const logout = async () => {
+        await AsyncStorage.removeItem('access_token');
+        navigation.navigate('Login');
     }
 
     const translateY = useSharedValue(-300); // Initial position above the screen
@@ -37,20 +64,25 @@ const Dashboard = () => {
 
     return (
         <View style={{ marginBottom: '20%' }}>
+
             {/** header */}
             <View style={styles.headerContainer}>
+
                 <View style={styles.leftHeader}>
-                    <TouchableOpacity>
+                    {/* <TouchableOpacity>
                         <MaterialCommunityIcons name="menu" color={'black'} size={24} />
-                    </TouchableOpacity>
+                    </TouchableOpacity> */}
                     <Text style={styles.headingText}>NeoSTORE</Text>
+                    <Button title='logout' color={'blue'} onPress={()=>{
+                        logout();
+                    }} />
                 </View>
 
                 <View style={styles.rightHeader}>
-                    <TouchableOpacity>
+                    <TouchableOpacity onPress={() => handleCart()}>
                         <MaterialCommunityIcons name="cart" color={'black'} size={24} />
                     </TouchableOpacity>
-                    <View style={styles.cartCount}><Text style={styles.cartText}>2</Text></View>
+                    <View style={styles.cartCount}><Text style={styles.cartText}>{total}</Text></View>
                 </View>
             </View>
 
@@ -144,7 +176,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         paddingLeft: 16,
         paddingRight: 16,
-
+        //marginTop : '10%'
     },
     introContainer: {
         backgroundColor: 'rgba(255, 171, 0, 0.60)',
@@ -167,7 +199,8 @@ const styles = StyleSheet.create({
     headingText: {
         fontWeight: '500',
         fontSize: 16,
-        color: 'black'
+        color: 'black',
+        marginTop : 10
     },
     cartLogo: {
         height: 20,
@@ -205,6 +238,20 @@ const styles = StyleSheet.create({
         color: 'black',
     },
     itemsCon: {
+
+    },
+    offerCon: {
+        backgroundColor: 'black',
+        height: 30,
+        flexDirection: 'row',
+        width: '100%',
+        justifyContent: 'center',
+        alignItems: 'center',
+        gap: 20
+    },
+    offerText: {
+        color: 'white',
+        fontWeight: 500,
 
     }
 })

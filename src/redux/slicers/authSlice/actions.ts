@@ -1,4 +1,4 @@
-import {createAsyncThunk} from '@reduxjs/toolkit';
+import { createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
 import {
   baseUrl,
@@ -9,8 +9,8 @@ import {
   getUserData,
   update,
 } from '../../../constants/url';
-import {persistor} from '../../store/store';
-import {logout} from './authSlice';
+import { persistor } from '../../store/store';
+import { logout } from './authSlice';
 import {
   IRegistrationFormData,
   ISignInFormData,
@@ -18,6 +18,7 @@ import {
   IUpdateDetailsFormData,
 } from './type';
 import Toast from 'react-native-simple-toast';
+import { Alert } from 'react-native';
 
 export const registerUser = createAsyncThunk(
   'auth/registerUser',
@@ -45,6 +46,7 @@ export const registerUser = createAsyncThunk(
   },
 );
 
+
 export const signInUser = createAsyncThunk(
   'auth/signInUser',
   async (user: ISignInFormData, thunkAPI) => {
@@ -52,20 +54,24 @@ export const signInUser = createAsyncThunk(
     formData.append('email', user.email);
     formData.append('password', user.password);
     try {
+      console.log('form data entering ', formData);
       const response = await axios.post(`${baseUrl}/${signin}`, formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
         },
       });
+      console.log('after form data', response?.data);
       Toast.show('sign in successful', Toast.SHORT);
-
       return response.data;
-    } catch (error: any) {
-      Toast.show('try again', Toast.SHORT);
+    } catch (error : any) {
+      console.log('thunk catch --->', error);
+      Toast.show('Incorrect Credentials', Toast.SHORT);
+      console.log( 'return statement-->' ,thunkAPI.rejectWithValue(error.message))
       return thunkAPI.rejectWithValue(error.message);
     }
   },
 );
+
 
 export const changePassword = createAsyncThunk(
   'auth/changePassword',
@@ -159,9 +165,9 @@ export const updateDetails = createAsyncThunk(
 
 export const logoutAndClearPersistedData =
   () =>
-  async (
-    dispatch: (arg0: {payload: undefined; type: 'auth/logout'}) => void,
-  ) => {
-    dispatch(logout());
-    await persistor.purge();
-  };
+    async (
+      dispatch: (arg0: { payload: undefined; type: 'auth/logout' }) => void,
+    ) => {
+      dispatch(logout());
+      await persistor.purge();
+    };

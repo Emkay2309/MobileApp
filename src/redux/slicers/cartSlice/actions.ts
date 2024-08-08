@@ -29,12 +29,6 @@ export const getCartList = createAsyncThunk(
   },
 );
 
-/**
- * @author Meghraj Vilas Lot
- * @param {IAddToCartParams}
- * @description performs api call for adding product to cart
- * @returns success response or error
- */
 
 export const addToCart = createAsyncThunk(
   'cart/addToCart',
@@ -43,6 +37,7 @@ export const addToCart = createAsyncThunk(
       const formData = new FormData();
       formData.append('product_id', params.product_id);
       formData.append('quantity', params.quantity);
+
       const headers = {
         access_token: params.access_token, // Add your access token to the custom header
         'Content-Type': 'multipart/form-data', // Important for FormData
@@ -50,14 +45,12 @@ export const addToCart = createAsyncThunk(
       const response = await axios.post(`${baseUrl}/${addCart}`, formData, {
         headers,
       });
-
       return response.data;
     } catch (error: any) {
       return thunkAPI.rejectWithValue(error.message);
     }
   },
 );
-
 
 export const editCart = createAsyncThunk(
   'cart/editCart',
@@ -66,17 +59,22 @@ export const editCart = createAsyncThunk(
       const formData = new FormData();
       formData.append('product_id', params.product_id);
       formData.append('quantity', params.quantity);
+      
       const headers = {
         access_token: params.access_token,
         'Content-Type': 'multipart/form-data',
       };
-      const response = await axios.post(
-        `${baseUrl}/${editCartItem}`,
-        formData,
-        {
-          headers,
-        },
-      );
+
+      console.log(`${baseUrl}/${editCartItem}`);
+      console.log('-----')
+      console.log(formData);
+      console.log('-----')
+      console.log(headers);
+      console.log('------->')
+
+      const response = await axios.post(`${baseUrl}/${editCartItem}`, formData, {
+        headers,
+      });
 
       return response.data;
     } catch (error: any) {

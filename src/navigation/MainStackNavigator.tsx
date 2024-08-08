@@ -60,14 +60,15 @@ const MainStackNavigator = () => {
 
     return (
         <Stack.Navigator
-            initialRouteName={'TabNav'}
+            initialRouteName={'Login'}
             screenOptions={{ headerShown: false }}>
             <Stack.Screen name="Login" component={Login} />
             <Stack.Screen name="Onboard" component={Onboard} />
             <Stack.Screen name="Signup" component={Signup} />
             <Stack.Screen
                 options={{
-                    headerShown: true,
+                    //headerShown: true,
+                    //headerTintColor : '#613338',
                     headerTitleAlign: 'center',
                     headerTitleStyle: {
                         fontFamily: 'Gilroy-Bold',
@@ -75,13 +76,13 @@ const MainStackNavigator = () => {
                         fontSize: 20,
                     },
                     headerTitle: 'Forgot Password',
-                    headerLeft: () => (
-                        <Button
-                            title="back"
-                            onPress={() => navigation.navigate('Login')}
-                            color="white"
-                        />
-                    ),
+                    // headerLeft: () => (
+                    //     <Button
+                    //         title="back"
+                    //         onPress={() => navigation.navigate('Login')}
+                    //         color="white"
+                    //     />
+                    // ),
                 }}
                 name="ForgotPassword"
                 component={ForgetPassword}

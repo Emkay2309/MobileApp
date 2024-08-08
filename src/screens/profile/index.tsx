@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { StyleSheet, Text, TextInput, TouchableOpacity, View, Image, KeyboardAvoidingView, Platform, ScrollView } from 'react-native';
+import { StyleSheet, Text, TextInput, TouchableOpacity, View, Image, KeyboardAvoidingView, Platform, ScrollView, SafeAreaView } from 'react-native';
 import { useAppSelector, useAppDispatch } from '../../redux/store/store';
 import { getUserAccountDetails, updateDetails } from '../../redux/slicers/authSlice/actions';
 import Fontisto from 'react-native-vector-icons/Fontisto';
@@ -37,6 +37,7 @@ const ProfileScreen = () => {
   };
 
   return (
+
     <KeyboardAvoidingView
       style={{ flex: 1 }}
       behavior={Platform.OS === 'ios' ? 'padding' : 'height'}

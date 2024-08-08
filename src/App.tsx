@@ -7,6 +7,7 @@ import { store, persistor } from './redux/store/store';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import MainStackNavigator from './navigation/MainStackNavigator';
 import { NavigationContainer } from '@react-navigation/native';
+import CheckNavigator from './navigation/CheckNavigator';
 
 function App(): JSX.Element {
   return (
@@ -17,6 +18,7 @@ function App(): JSX.Element {
           <NavigationContainer>
             <MainStackNavigator />
           </NavigationContainer>
+          {/* //<CheckNavigator /> */}
         </GestureHandlerRootView>
       </PersistGate>
     </Provider>

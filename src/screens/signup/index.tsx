@@ -6,11 +6,12 @@ import InputBox from '../../components/Inputbox/InputBox';
 import Loader from '../../components/loader/Loader';
 import Button from '../../components/button/Button';
 import RadioButton from '../../components/radioButton/Radio';
-import COLORS from '../../assets/colors';
 import { SignupScreenNavigationProp } from '../../navigation/type';
 import { useAppDispatch } from '../../redux/store/store';
 import { registerUser } from '../../redux/slicers/authSlice/actions';
 import { IRegistrationFormData } from '../../redux/slicers/authSlice/type';
+import { styles } from './style';
+
 
 const Signup = ({ navigation }: SignupScreenNavigationProp) => {
   const dispatch = useAppDispatch();
@@ -192,6 +193,7 @@ const Signup = ({ navigation }: SignupScreenNavigationProp) => {
                 placeholder="Enter phone number"
                 error={errors.phone_no}
               />
+            </View>
               <View style={styles.footer}>
                 <Button title="Sign up" onPress={validate} />
                 <Text
@@ -201,7 +203,6 @@ const Signup = ({ navigation }: SignupScreenNavigationProp) => {
                   Already a user? Login
                 </Text>
               </View>
-            </View>
           </View>
         </ScrollView>
         {loading && <Loader />}
@@ -210,83 +211,6 @@ const Signup = ({ navigation }: SignupScreenNavigationProp) => {
   );
 };
 
-const styles = StyleSheet.create({
-  safeArea: {
-    backgroundColor: COLORS.white,
-    flex: 1,
-  },
-  heading: {
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  container: {
-    paddingHorizontal: 20,
-    justifyContent: 'center',
-  },
-  footer: {
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  title: {
-    color: COLORS.black,
-    fontSize: 35,
-    fontWeight: 'bold',
-  },
-  subtitle: {
-    color: COLORS.grey,
-    fontSize: 18,
-  },
-  inputContainer: {
-    marginVertical: 1,
-  },
-  radContainer: {},
-  registerText: {
-    color: COLORS.black,
-    fontWeight: 'bold',
-    textAlign: 'center',
-    fontSize: 20,
-  },
-  gradient: {
-    flex: 1,
-  },
-  genderContainer: {
-    flexDirection: 'row',
-    justifyContent: 'center',
-    gap: 30,
-    alignItems: 'center',
-    height: 55,
-    backgroundColor: '#574c5c',
-    marginTop: 22,
-    paddingHorizontal: 15,
-    borderWidth: 0.5,
-    borderRadius: 10,
-    borderColor: 'white',
-  },
-  genderLabel: {
-    color: COLORS.black,
-    fontSize: 18,
-  },
-  radioButtonContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
-  radioButton: {
-    height: 20,
-    width: 20,
-    borderRadius: 10,
-    borderWidth: 2,
-    borderColor: COLORS.black,
-    alignItems: 'center',
-    justifyContent: 'center',
-    marginRight: 5,
-  },
-  radioButtonSelected: {
-    backgroundColor: COLORS.black,
-  },
-  radioButtonLabel: {
-    color: COLORS.black,
-    fontSize: 16,
-  },
-});
+
 
 export default Signup;
