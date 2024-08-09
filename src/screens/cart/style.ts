@@ -6,6 +6,7 @@ export const styles = StyleSheet.create({
       flex: 1,
       padding: 12,
       backgroundColor: '#f5f5f5',
+      marginTop : 10
     },
     scrollContainer: {
       paddingBottom: 100,
@@ -67,9 +68,9 @@ export const styles = StyleSheet.create({
     },
     totalContainer: {
       position: 'absolute',
-      bottom: 0,
-      left: 0,
-      right: 0,
+      bottom: 10,
+      left: 10,
+      right: 10,
       paddingHorizontal: 20,
       paddingVertical: 20,
       backgroundColor: 'grey',
@@ -77,6 +78,8 @@ export const styles = StyleSheet.create({
       justifyContent: 'space-between',
       alignItems: 'center',
       borderRadius: 20,
+      width : '100%',
+      
     },
     totalText: {
       color: 'white',

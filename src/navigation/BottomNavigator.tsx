@@ -1,6 +1,6 @@
 import { StyleSheet, Text, View } from 'react-native'
 import React from 'react'
-import { BottomTabNavScreenNavigationProp, RootStackParamList, TabNavScreenNavigationProp } from './type'
+import { BottomTabNavScreenNavigationProp, RootStackParamList } from './type'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import HomeNavigator from './HomeNavigator';

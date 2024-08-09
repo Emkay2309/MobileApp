@@ -1,5 +1,6 @@
 import {RouteProp} from '@react-navigation/native';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
+import { IProduct } from '../redux/slicers/productSlice/type';
 
 export type RootStackParamList = {
   MainStackNavigator: undefined;
@@ -27,6 +28,7 @@ export type RootStackParamList = {
     product_category_id: number | undefined;
     categoryName: string | undefined;
   };
+
   ProductDetail: {
     product_id : number; 
   };
@@ -41,6 +43,8 @@ export type RootStackParamList = {
 
   AddressList : undefined;
 
+  NewArrivalCard : {item : IProduct};
+
   HomeNavigator: undefined;
   CartNavigator: undefined;
   ProfileNavigator: undefined;
@@ -51,11 +55,14 @@ export type RootStackParamList = {
   ChangePassword: undefined;
   UpdateDetails: undefined;
   Profile: undefined;
+  ProfileMain : undefined;
   
   OrderDetail: {order_id: number; created: string};
   Address: undefined;
   AddAddress: {id: string};
   Payment: {id: string};
+
+
 };
 
 //check navigation types
@@ -88,6 +95,11 @@ export type OnboardScreenNavigationProp = NativeStackScreenProps<
 export type DashboardNavigationProp = NativeStackScreenProps<
   RootStackParamList,
   'Dashboard'
+>;
+
+export type NewArrivalCardNavigationProp = NativeStackScreenProps<
+  RootStackParamList,
+  'NewArrivalCard'
 >;
 
 export type SignupScreenNavigationProp = NativeStackScreenProps<
@@ -168,6 +180,13 @@ export type ProfileScreenNavigationProp = NativeStackScreenProps<
   RootStackParamList,
   'Profile'
 >;
+
+export type ProfileMainScreenNavigationProp = NativeStackScreenProps<
+  RootStackParamList,
+  'ProfileMain'
+>;
+
+
 
 export type ChangePasswordScreenNavigationProp = NativeStackScreenProps<
   RootStackParamList,

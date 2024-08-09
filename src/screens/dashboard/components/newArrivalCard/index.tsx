@@ -4,21 +4,33 @@ import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityI
 import CustomButton from '../../../../components/customButton/CustomButton';
 import { IProduct } from '../../../../redux/slicers/productSlice/type';
 import images from './images/images';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { useNavigation } from '@react-navigation/native';
+import { RootStackParamList } from '../../../../navigation/type';
 
 interface NewArrivalCardProps {
   item: IProduct;
 }
 
 const NewArrivalCard: React.FC<NewArrivalCardProps> = ({ item }) => {
+
+  
   const handleButtonPress = () => {
     // Handle button press logic
   };
+  
   const id = item.id-1;
   const imageSource = images[id%10];
-
+  
+  const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList, 'NewArrivalCard'>>();
+  const navigateToProductDetail = (id: number) => {
+    navigation.navigate('ProductDetail', {
+      product_id: item.id,
+    });
+  };
 
   return (
-    <TouchableOpacity style={styles.container}>
+    <TouchableOpacity style={styles.container} onPress={()=>navigateToProductDetail(id)} >
       <View style={styles.main}>
         <View style={styles.tags}>
           <View style={styles.new}>
@@ -62,7 +74,13 @@ const styles = StyleSheet.create({
     backgroundColor: '#F3F5F7',
     height: 308,
     width: 231,
-    borderRadius : 20
+    
+    borderRadius : 20,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.2,
+    shadowRadius: 8,
+    elevation: 5,
   },
   tags: {
     flexDirection: 'row',

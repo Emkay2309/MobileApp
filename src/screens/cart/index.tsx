@@ -59,7 +59,7 @@ const CartScreen: React.FC = () => {
   useEffect(() => {
     if (accessToken) {
       const response = dispatch(getCartList({ access_token: accessToken })).unwrap();
-      console.log('cart reponse -->' ,response);
+      //console.log('cart reponse -->' ,response);
     }
   }, [dispatch, accessToken]);
 

@@ -12,12 +12,17 @@ import Toast from 'react-native-simple-toast';
 
 export const placeOrder = createAsyncThunk(
   'order/placeOrder',
-  async (params: IPlaceOrderParams, thunkAPI) => {
+  async (params : IPlaceOrderParams, thunkAPI) => {
     try {
       const {access_token, address} = params;
-      const formattedAddress = `${address?.firstLine}, ${address?.secondLine}, ${address?.city}, ${address?.state}, ${address?.pincode}, ${address?.country}`;
+
+      console.log('this in params in thunk :' , params);
+
+      //const formattedAddress = `${address?.firstLine}, ${address?.secondLine}, ${address?.city}, ${address?.state}, ${address?.pincode}, ${address?.country}`;
+      
       const formData = new FormData();
-      formData.append('address', formattedAddress);
+      formData.append('address', address);
+
       const headers = {
         access_token: access_token,
         'Content-Type': 'multipart/form-data',
@@ -26,6 +31,8 @@ export const placeOrder = createAsyncThunk(
         headers,
       });
       Toast.show('Order Placed Successfully', Toast.SHORT);
+
+      console.log('response.data --->' ,response.data)
       return response.data;
     } catch (error: any) {
       return thunkAPI.rejectWithValue(error.message);

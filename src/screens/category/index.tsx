@@ -5,7 +5,7 @@ import { useAppDispatch, useAppSelector } from '../../redux/store/store';
 import { getCategoryList } from '../../redux/slicers/productSlice/actions';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import CustomButton from '../../components/customButton/CustomButton';
-import {styles} from './style'
+import { styles } from './style'
 
 const CategoryList = ({ navigation, route }: CategoryScreenNavigationProp) => {
     const { category } = useAppSelector(state => state.product);
@@ -40,28 +40,20 @@ const CategoryList = ({ navigation, route }: CategoryScreenNavigationProp) => {
             />
 
             <FlatList
+                style={styles.listCon}
                 data={category?.data}
                 contentContainerStyle={{ padding: 20 }}
                 renderItem={({ item }) => {
                     return (
-                        <TouchableOpacity onPress={() => navigateToProductDetail(item.id)} style={{ marginBottom: 10 }} >
+                        <TouchableOpacity onPress={() => navigateToProductDetail(item.id)} style={styles.cardContainer}>
                             <View style={styles.itemContainer}>
-                                <View style={[styles.bg,]}>
-                                    <Text style={styles.text}>{item.name}</Text>
-                                    <Text>$ {item.cost}</Text>
-                                    <View style={styles.imgCon}>
-                                        <Image source={{ uri: item.product_images }} style={styles.image} />
-                                    </View>
-                                    <View style={{alignItems : 'center',marginTop : 10}}>
-                                        <CustomButton
-                                            text="Add to Cart"
-                                            onPress={()=>{}}
-                                            height={60}
-                                            width={140}
-                                            backgroundColor="lightpink"
-                                            textColor="black"
-                                        />
-                                    </View>
+                                <Image source={{ uri: item.product_images }} style={styles.image} />
+                                <View style={styles.infoContainer}>
+                                    <Text style={styles.productName}>{item.name}</Text>
+                                    <Text style={styles.productPrice}>${item.cost}</Text>
+                                    <TouchableOpacity style={styles.addButton} onPress={() => { }}>
+                                        <Text style={styles.addButtonText}>Add to Cart</Text>
+                                    </TouchableOpacity>
                                 </View>
                             </View>
                         </TouchableOpacity>
@@ -73,6 +65,8 @@ const CategoryList = ({ navigation, route }: CategoryScreenNavigationProp) => {
         </SafeAreaView >
     );
 };
+
+
 
 export default CategoryList;
 

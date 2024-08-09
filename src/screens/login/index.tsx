@@ -54,9 +54,11 @@ const Login = ({ navigation }: LoginScreenNavigationProp) => {
                 setLoading(true);
                 console.log('checkInput' , inputs)
                 const response = await dispatch(signInUser(inputs)).unwrap();
-                //await AsyncStorage.setItem('access_token', response.data.access_token);
+                await AsyncStorage.setItem('access_token', response.data.access_token);
                 console.log('response ---> ' , response);
                 navigation.navigate('TabNav');
+
+
                 setLoading(false);
             } catch (error : any ) {
                 Toast.show(error.message || 'Enter correct email and password', Toast.SHORT);

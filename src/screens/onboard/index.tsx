@@ -11,4 +11,3 @@ const Onboard = () => {
 
 export default Onboard
 
-const styles = StyleSheet.create({})

@@ -51,7 +51,7 @@ const MainStackNavigator = () => {
     if (isFirstLaunch === -1) {
         return null;
     } else if (isFirstLaunch === 0) {
-        routeName = 'Onboard';
+        routeName = 'Login';
     } else if (authState.user === null && isFirstLaunch === 1) {
         routeName = 'Login';
     } else if (authState.user?.data?.access_token) {
@@ -60,7 +60,7 @@ const MainStackNavigator = () => {
 
     return (
         <Stack.Navigator
-            initialRouteName={'Login'}
+            initialRouteName={routeName}
             screenOptions={{ headerShown: false }}>
             <Stack.Screen name="Login" component={Login} />
             <Stack.Screen name="Onboard" component={Onboard} />

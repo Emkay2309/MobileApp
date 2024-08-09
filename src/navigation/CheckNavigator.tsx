@@ -13,6 +13,7 @@ const CheckNavigator = () => {
 
     const checkIfLoggedIn = async () => {
         const token = await AsyncStorage.getItem('access_token');
+        console.log(token)
         if (token) {
             return true;
         } else {
@@ -28,7 +29,6 @@ const CheckNavigator = () => {
 
         checkAuthStatus();
     }, []);
-
 
     return (
         <NavigationContainer>

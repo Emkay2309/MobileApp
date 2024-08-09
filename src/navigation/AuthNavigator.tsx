@@ -4,6 +4,7 @@ import { RootStackParamList } from "./type";
 import Login from "../screens/login";
 import ForgetPassword from "../screens/forget";
 import Signup from "../screens/signup";
+import Dashboard from "../screens/dashboard";
 
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
@@ -14,6 +15,7 @@ const AuthNavigator = () => {
       <Stack.Screen name="Login" component={Login} />
       <Stack.Screen name="ForgotPassword" component={ForgetPassword} />
       <Stack.Screen name="Signup" component={Signup} />
+      
     </Stack.Navigator>
   )
 }

@@ -2,6 +2,7 @@ import { Button, Image, StyleSheet, Text, TouchableOpacity, View } from 'react-n
 import React, { useEffect, useState } from 'react'
 import { ScrollView } from 'react-native-gesture-handler'
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import AntDesign from 'react-native-vector-icons/AntDesign';
 import FontAwesome6 from 'react-native-vector-icons/FontAwesome6'
 import CustomButton from '../../components/customButton/CustomButton';
 import Animated, { useAnimatedStyle, useSharedValue, withSpring } from 'react-native-reanimated';
@@ -18,6 +19,8 @@ import { RootState } from '../../redux/store/store';
 import { useNavigation } from '@react-navigation/native';
 import { CartNavigatorScreenNavigationProp, RootStackParamList } from '../../navigation/type';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import LogoutModal from './components/logoutModal';
+import {styles} from './style'
 
 
 const Dashboard = () => {
@@ -43,8 +46,20 @@ const Dashboard = () => {
 
     const logout = async () => {
         await AsyncStorage.removeItem('access_token');
+        await AsyncStorage.removeItem('alreadyLaunched');
         navigation.navigate('Login');
     }
+
+    const [modalVisible, setModalVisible] = useState(false);
+
+    const handleLogoutPress = () => {
+        setModalVisible(true);
+    };
+
+    const confirmLogout = () => {
+        setModalVisible(false);
+        logout();
+    };
 
     const translateY = useSharedValue(-300); // Initial position above the screen
 
@@ -66,24 +81,29 @@ const Dashboard = () => {
         <View style={{ marginBottom: '20%' }}>
 
             {/** header */}
-            <View style={styles.headerContainer}>
+            <View>
+                <View style={styles.headerContainer}>
+                    <View style={styles.leftHeader}>
+                        <Text style={styles.headingText}>NeoSTORE</Text>
+                    </View>
 
-                <View style={styles.leftHeader}>
-                    {/* <TouchableOpacity>
-                        <MaterialCommunityIcons name="menu" color={'black'} size={24} />
-                    </TouchableOpacity> */}
-                    <Text style={styles.headingText}>NeoSTORE</Text>
-                    <Button title='logout' color={'blue'} onPress={()=>{
-                        logout();
-                    }} />
+                    <View style={styles.rightHeader}>
+                        <TouchableOpacity onPress={handleCart}>
+                            <MaterialCommunityIcons name="cart" color={'black'} size={24} />
+                        </TouchableOpacity>
+                        <View style={styles.cartCount}>
+                            <Text style={styles.cartText}>{total}</Text>
+                        </View>
+                        <AntDesign name="logout" color={'black'} size={24}  onPress={handleLogoutPress}/>
+                        
+                    </View>
                 </View>
 
-                <View style={styles.rightHeader}>
-                    <TouchableOpacity onPress={() => handleCart()}>
-                        <MaterialCommunityIcons name="cart" color={'black'} size={24} />
-                    </TouchableOpacity>
-                    <View style={styles.cartCount}><Text style={styles.cartText}>{total}</Text></View>
-                </View>
+                <LogoutModal
+                    visible={modalVisible}
+                    onConfirm={confirmLogout}
+                    onCancel={() => setModalVisible(false)}
+                />
             </View>
 
             {/** heading partition */}
@@ -166,92 +186,3 @@ const Dashboard = () => {
 
 export default Dashboard
 
-const styles = StyleSheet.create({
-
-    headerContainer: {
-        backgroundColor: 'rgba(255, 171, 0, 0.60)',
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        height: 60,
-        alignItems: 'center',
-        paddingLeft: 16,
-        paddingRight: 16,
-        //marginTop : '10%'
-    },
-    introContainer: {
-        backgroundColor: 'rgba(255, 171, 0, 0.60)',
-        justifyContent: 'center',
-        alignItems: 'center',
-        gap: 4,
-        padding: 40
-    },
-    leftHeader: {
-        marginLeft: 20,
-        flexDirection: 'row',
-        gap: 10,
-
-    },
-    rightHeader: {
-        flexDirection: 'row',
-        gap: 8,
-        marginRight: 20
-    },
-    headingText: {
-        fontWeight: '500',
-        fontSize: 16,
-        color: 'black',
-        marginTop : 10
-    },
-    cartLogo: {
-        height: 20,
-        width: 20,
-    },
-    cartCount: {
-        marginTop: 2,
-        backgroundColor: 'black',
-        width: 20,
-        height: 20,
-        borderRadius: 50
-    },
-    cartText: {
-        fontFamily: 'poppins',
-        fontWeight: '700',
-        color: '#FFAB00',
-        textAlign: 'center'
-    },
-    introImg: {
-        backgroundColor: 'rgba(255, 171, 0, 0.60)',
-        alignItems: 'center'
-    },
-    image: {
-        width: 450,
-        height: 300,
-        resizeMode: 'cover',
-    },
-    mainText: {
-        fontSize: 40,
-        color: 'black',
-        marginLeft: 15
-    },
-    subText: {
-        fontSize: 16,
-        color: 'black',
-    },
-    itemsCon: {
-
-    },
-    offerCon: {
-        backgroundColor: 'black',
-        height: 30,
-        flexDirection: 'row',
-        width: '100%',
-        justifyContent: 'center',
-        alignItems: 'center',
-        gap: 20
-    },
-    offerText: {
-        color: 'white',
-        fontWeight: 500,
-
-    }
-})

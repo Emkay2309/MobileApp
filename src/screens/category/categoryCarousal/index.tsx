@@ -2,6 +2,7 @@ import { StyleSheet, View } from 'react-native';
 import React from 'react';
 import CategoryCard from '../categoryCard';
 import { ImageRequireSource } from 'react-native';
+import {styles} from './style'
 
 // Define the interface for a category item
 export interface CategoryItem {
@@ -48,17 +49,6 @@ const CategoryCarousal = () => {
 
 export default CategoryCarousal;
 
-const styles = StyleSheet.create({
-    container: {
-        flexDirection: 'row',
-        flexWrap: 'wrap',
-        justifyContent: 'space-between',
-        
-    },
-    cardContainer: {
-        marginRight: 10,
-        marginBottom: 30,
-    },
-});
+
 
 
