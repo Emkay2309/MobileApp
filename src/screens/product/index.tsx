@@ -3,27 +3,28 @@ import React, { useEffect, useState } from 'react';
 import { ProductDetailScreenNavigationProp } from '../../navigation/type';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import { RootState, useAppDispatch, useAppSelector } from '../../redux/store/store';
-import { getProduct } from '../../redux/slicers/productSlice/actions';
+import { getProduct, setProductRating } from '../../redux/slicers/productSlice/actions';
 import { addToCart, getCartList } from '../../redux/slicers/cartSlice/actions';
 import { useSelector } from 'react-redux';
-import {styles} from './style'
+import { styles } from './style'
 
 const ProductScreen = ({
   navigation,
   route,
 }: ProductDetailScreenNavigationProp) => {
   const dispatch = useAppDispatch();
+
   const { product_id } = route.params;
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [addedToCart, setAddedToCart] = useState(false);
 
   useEffect(() => {
     dispatch(getProduct({ product_id }));
-  }, [dispatch, product_id]);
+  }, [dispatch, product_id , ]);
 
   const productResponse = useAppSelector(state => state.product.productData);
   const product = productResponse?.data;
-  
+
 
   const accessToken = useSelector((state: RootState) => state.auth.user?.data?.access_token);
 
@@ -38,7 +39,7 @@ const ProductScreen = ({
         }),
       ).unwrap();
       setAddedToCart(true);
-      dispatch(getCartList({access_token: accessToken}));
+      dispatch(getCartList({ access_token: accessToken }));
       setTimeout(() => {
         setAddedToCart(false);
       }, 2000);
@@ -73,6 +74,15 @@ const ProductScreen = ({
     }
   };
 
+  const handleStarPress =  async (star: number) => {
+    const response = await dispatch(setProductRating({
+      product_id: product.id,
+      rating: star
+    }));
+
+    console.log(response);
+  }
+
   const renderStars = () => {
     const fullStars = Math.floor(product.rating);
     const halfStar = product.rating - fullStars >= 0.5;
@@ -80,17 +90,25 @@ const ProductScreen = ({
 
     const stars = [];
 
-    for (let i = 0; i < fullStars; i++) {
-      stars.push(<MaterialCommunityIcons key={`full-${i}`} name="star" size={24} color="#FFD700" />);
-    }
 
-    if (halfStar) {
-      stars.push(<MaterialCommunityIcons key="half" name="star-half-full" size={24} color="#FFD700" />);
-    }
+
+    for (let i = 0; i < fullStars; i++) {
+      stars.push(
+        <TouchableOpacity key={i} onPress={() => handleStarPress(i)}>
+          <MaterialCommunityIcons key={`full-${i}`} name="star" size={24} color="#FFD700" />
+        </TouchableOpacity>
+      )
+    };
+
+
 
     for (let i = fullStars + (halfStar ? 1 : 0); i < totalStars; i++) {
-      stars.push(<MaterialCommunityIcons key={`empty-${i}`} name="star-outline" size={24} color="#FFD700" />);
-    }
+      stars.push(
+        <TouchableOpacity key={i} onPress={() => handleStarPress(i)}>
+          <MaterialCommunityIcons key={`empty-${i}`} name="star-outline" size={24} color="#FFD700" />
+        </TouchableOpacity>
+      )
+    };
 
     return stars;
   };
@@ -128,7 +146,7 @@ const ProductScreen = ({
           </View>
         </View>
         <View style={styles.buttonContainer}>
-          <TouchableOpacity style={styles.addToCartButton} onPress={()=>handleAddToCart()}>
+          <TouchableOpacity style={styles.addToCartButton} onPress={() => handleAddToCart()}>
             <Text style={styles.buttonText}>Add to Cart</Text>
           </TouchableOpacity>
           <TouchableOpacity style={styles.buyNowButton}>

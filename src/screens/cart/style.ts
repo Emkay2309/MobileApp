@@ -8,8 +8,14 @@ export const styles = StyleSheet.create({
       backgroundColor: '#f5f5f5',
       marginTop : 10
     },
+    heading : {
+      fontSize : 22,
+      fontWeight : '400',
+      textAlign : 'center',
+    },
     scrollContainer: {
       paddingBottom: 100,
+      marginTop : 10
     },
     nullCon: {
       flex: 1,
@@ -27,7 +33,8 @@ export const styles = StyleSheet.create({
       borderRadius: 10,
       backgroundColor: '#fff',
       elevation: 2,
-      gap: 70
+      gap: 70,
+      height : 150
     },
     productImage: {
       width: 100,
@@ -40,8 +47,9 @@ export const styles = StyleSheet.create({
       flex: 1,
     },
     productName: {
-      fontSize: 16,
+      fontSize: 20,
       fontWeight: 'bold',
+      color : 'black'
     },
     productPrice: {
       fontSize: 16,
@@ -73,7 +81,7 @@ export const styles = StyleSheet.create({
       right: 10,
       paddingHorizontal: 20,
       paddingVertical: 20,
-      backgroundColor: 'grey',
+      backgroundColor: 'rgba(255, 171, 0, 0.60)',
       flexDirection: 'row',
       justifyContent: 'space-between',
       alignItems: 'center',
@@ -86,7 +94,7 @@ export const styles = StyleSheet.create({
       fontSize: 18,
     },
     btn: {
-      backgroundColor: 'lightpink',
+      backgroundColor: 'black',
       paddingVertical: 10,
       paddingHorizontal: 20,
       borderRadius: 15,
@@ -100,4 +108,8 @@ export const styles = StyleSheet.create({
       justifyContent: 'center',
       alignItems: 'center',
     },
+    cartIcon : {
+      opacity : 0.1,
+      
+    }
   });

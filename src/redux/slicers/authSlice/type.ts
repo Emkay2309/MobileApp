@@ -7,7 +7,7 @@ export interface IUserData {
   username: string;
   profile_pic: string | null;
   country_id: number | null;
-  gender: 'M' | 'F';
+  gender: 'male' | 'female';
   phone_no: string;
   dob: string | null;
   is_active: boolean;

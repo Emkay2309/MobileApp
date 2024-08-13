@@ -48,6 +48,9 @@ export const styles = StyleSheet.create({
         height: 20,
         borderRadius: 50
     },
+    logout : {
+        marginLeft : 20
+    },
     cartText: {
         fontFamily: 'poppins',
         fontWeight: '700',

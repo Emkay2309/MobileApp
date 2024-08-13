@@ -1,5 +1,5 @@
 import { Button, Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { ScrollView } from 'react-native-gesture-handler'
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import AntDesign from 'react-native-vector-icons/AntDesign';
@@ -14,24 +14,32 @@ import Promotion from '../commonComponent/Promotion';
 import Support from '../commonComponent/Support';
 import Footer from '../commonComponent/Footer';
 import BestSellerList from '../commonComponent/BestSellerList';
-import { useSelector } from 'react-redux';
-import { RootState } from '../../redux/store/store';
+import { useDispatch, useSelector } from 'react-redux';
+import { AppDispatch, RootState } from '../../redux/store/store';
 import { useNavigation } from '@react-navigation/native';
-import { CartNavigatorScreenNavigationProp, RootStackParamList } from '../../navigation/type';
+import { CartNavigatorScreenNavigationProp, DashboardNavigationProp, RootStackParamList } from '../../navigation/type';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import LogoutModal from './components/logoutModal';
-import {styles} from './style'
+import { styles } from './style'
+import { getCartList } from '../../redux/slicers/cartSlice/actions';
 
 
-const Dashboard = () => {
-    const navigation = useNavigation<CartNavigatorScreenNavigationProp['navigation']>();
+const Dashboard = ({ navigation }: DashboardNavigationProp) => {
+    // const navigation = useNavigation<CartNavigatorScreenNavigationProp['navigation']>();
+    
+    const dispatch = useDispatch<AppDispatch>();
+    const accessToken = useSelector((state: RootState) => state.auth.user?.data?.access_token);
+    
 
     const handleCart = () => {
         navigation.navigate('CartNavigator');
     }
-    const { cart } = useSelector((state: RootState) => state.cart);
+    const { cart } = useSelector((state : RootState) => state.cart);
     let total = cart?.count;
-    if(total === undefined) {
+
+    //console.log('cart : ', total);
+
+    if (total === undefined) {
         total = 0;
     }
     const handleButtonPress = () => {
@@ -69,7 +77,27 @@ const Dashboard = () => {
             damping: 10,
             stiffness: 100,
         });
+
+        if (accessToken) {
+            dispatch(getCartList({ access_token: accessToken })).unwrap();
+        }
     }, []);
+
+    const scrollViewRef = useRef<ScrollView>(null);
+    const [shopCategoryPosition, setShopCategoryPosition] = useState(0);
+    const [homePosition, setHomePosition] = useState(0);
+
+    const scrollToShopCategory = () => {
+        if (scrollViewRef.current) {
+            scrollViewRef.current.scrollTo({ y: shopCategoryPosition, animated: true });
+        }
+    };
+
+    const scrollToHome = () => {
+        if (scrollViewRef.current) {
+            scrollViewRef.current.scrollTo({ y: homePosition, animated: true });
+        }
+    };
 
     const animatedStyle = useAnimatedStyle(() => {
         return {
@@ -81,8 +109,8 @@ const Dashboard = () => {
         <View style={{ marginBottom: '20%' }}>
 
             {/** header */}
-            <View>
-                <View style={styles.headerContainer}>
+            <View >
+                <View style={styles.headerContainer} onLayout={(event) => setHomePosition(event.nativeEvent.layout.y)}>
                     <View style={styles.leftHeader}>
                         <Text style={styles.headingText}>NeoSTORE</Text>
                     </View>
@@ -94,8 +122,8 @@ const Dashboard = () => {
                         <View style={styles.cartCount}>
                             <Text style={styles.cartText}>{total}</Text>
                         </View>
-                        <AntDesign name="logout" color={'black'} size={24}  onPress={handleLogoutPress}/>
-                        
+                        <AntDesign name="logout" color={'black'} size={24} onPress={handleLogoutPress} style={styles.logout} />
+
                     </View>
                 </View>
 
@@ -110,7 +138,7 @@ const Dashboard = () => {
             <View style={{ width: '100%', height: 0.8, backgroundColor: 'black', }} />
 
             {/** Scrolling partition */}
-            <ScrollView>
+            <ScrollView ref={scrollViewRef}>
 
                 {/** Intro Text  and button*/}
                 <View style={styles.introContainer}>
@@ -148,7 +176,7 @@ const Dashboard = () => {
                 </View>
 
                 {/** Shop cateogories  */}
-                <View style={{ padding: 16 }}>
+                <View onLayout={(event) => setShopCategoryPosition(event.nativeEvent.layout.y)} style={{ padding: 16 }}>
                     <Text style={styles.mainText}>Shop Cateogory</Text>
                     <View style={{ marginTop: 10, padding: 4 }}>
                         <CategoryCarousal />
@@ -177,7 +205,7 @@ const Dashboard = () => {
 
                 {/** Footer Section */}
                 <View style={{ marginTop: 70 }}>
-                    <Footer />
+                    <Footer navigation={navigation} onShopPress={scrollToShopCategory} onHomePress={scrollToHome} />
                 </View>
             </ScrollView>
         </View>

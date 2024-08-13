@@ -14,7 +14,7 @@ interface IProduct {
     product: IProduct;
   }
   
-  interface ICart {
+  export interface ICart {
     status: number;
     data: ICartItem[] | null;
     count: number;

@@ -6,6 +6,7 @@ import CartNavigator from './CartNavigator';
 import CategoryList from '../screens/category';
 import ProductScreen from '../screens/product';
 import Dashboard from '../screens/dashboard';
+import OrderList from '../screens/order/orderList';
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
@@ -17,6 +18,7 @@ const HomeNavigator = () => {
         <Stack.Screen name='Category' component={CategoryList} />
         <Stack.Screen name='ProductDetail' component={ProductScreen} />
         <Stack.Screen name="CartNavigator"component={CartNavigator} />
+        <Stack.Screen name='OrderList' component={OrderList} />
     </Stack.Navigator>
   )
 }

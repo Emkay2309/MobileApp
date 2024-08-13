@@ -1,71 +1,74 @@
-import { Platform, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
-import React, { useEffect, useState } from 'react'
-import { Image } from 'react-native'
-import { request, PERMISSIONS, Permission } from 'react-native-permissions';
-import { ProfileMainScreenNavigationProp } from '../../../navigation/type';
+import { StyleSheet, Text, TouchableOpacity, View, Image, SafeAreaView } from 'react-native';
+import React, { useEffect } from 'react';
 import { useAppDispatch, useAppSelector } from '../../../redux/store/store';
 import { getUserAccountDetails } from '../../../redux/slicers/authSlice/actions';
+import Fontisto from 'react-native-vector-icons/Fontisto';
+import { ProfileMainScreenNavigationProp } from '../../../navigation/type';
+import {styles} from './style'
 
-interface imageType {
-    img: string
-}
-
-const ProfileMainScreen = ({ navigation }: ProfileMainScreenNavigationProp) => {
+const ProfileMainScreen = ({navigation} : ProfileMainScreenNavigationProp) => {
     const dispatch = useAppDispatch();
     const { user } = useAppSelector(state => state.auth);
     const accessToken = user?.data?.access_token;
+
     useEffect(() => {
         if (!user) {
             dispatch(getUserAccountDetails(accessToken));
         }
     }, [user, accessToken, dispatch]);
 
+    const handleEdit = () => {
+        navigation.navigate('Profile');
+    }
 
     return (
-        <View style={styles.container}>
-
-            <TouchableOpacity style={{ flex: 1 }}
-                onPress={() => { }}>
-                {/* <Image source={getimage != '' ? { uri : getimage} : require('../../assets/images/pic.png')} height={200} width={200} style={styles.image} /> */}
+        <SafeAreaView style={styles.container}>
+            <TouchableOpacity style={styles.pic} onPress={() => { }}>
+                {user?.data?.profile_pic ? (
+                    <Image source={{ uri: user?.data?.profile_pic }} style={styles.profileImage} />
+                ) : (
+                    <View style={styles.defaultPic}>
+                        {user?.data?.gender === 'male' ? (
+                            <Fontisto name="male" color={'black'} size={100} />
+                        ) : (
+                            <Fontisto name="female" color={'black'} size={100} />
+                        )}
+                    </View>
+                )}
             </TouchableOpacity>
-
-
-
-            <TouchableOpacity style={styles.btn}
-                onPress={() => {navigation.navigate('Profile') }}
-            >
-                <Text style={styles.btnText}>Edit Profile</Text>
+            <View style={styles.infoContainer}>
+                <View style={styles.infoBox}>
+                    <Text style={styles.infoTitle}>First Name:</Text>
+                    <Text style={styles.infoText}>{user?.data?.first_name}</Text>
+                </View>
+                <View style={styles.infoBox}>
+                    <Text style={styles.infoTitle}>Last Name:</Text>
+                    <Text style={styles.infoText}>{user?.data?.last_name}</Text>
+                </View>
+                <View style={styles.infoBox}>
+                    <Text style={styles.infoTitle}>Email:</Text>
+                    <Text style={styles.infoText}>{user?.data?.email}</Text>
+                </View>
+                <View style={styles.infoBox}>
+                    <Text style={styles.infoTitle}>Gender:</Text>
+                    <Text style={styles.infoText}>{user?.data?.gender}</Text>
+                </View>
+                <View style={styles.infoBox}>
+                    <Text style={styles.infoTitle}>Date of Birth:</Text>
+                    <Text style={styles.infoText}>{user?.data?.dob}</Text>
+                </View>
+                <View style={styles.infoBox}>
+                    <Text style={styles.infoTitle}>Phone Number:</Text>
+                    <Text style={styles.infoText}>{user?.data?.phone_no}</Text>
+                </View>
+            </View>
+            <TouchableOpacity style={styles.editButton} onPress={()=>handleEdit()}>
+                <Text style={styles.editButtonText}>Edit</Text>
             </TouchableOpacity>
-        </View>
-    )
-}
+        </SafeAreaView>
+    );
+};
 
-export default ProfileMainScreen
 
-const styles = StyleSheet.create({
-    container: {
-        // justifyContent : 'center',
-        alignItems: 'center',
-        flex: 1
-    },
-    image: {
-        borderRadius: 100,
-    },
-    btn: {
-        backgroundColor: 'lightpink',
-        padding: 5,
-        borderRadius: 10,
-        width: 300,
-        height: 50,
-        marginTop: 10,
-        alignSelf: 'center',
-        textAlign: 'center',
-        justifyContent: 'center',
-        marginBottom: 10
-    },
-    btnText: {
-        fontWeight: '500',
-        textAlign: 'center',
-        fontSize: 20
-    },
-})
+
+export default ProfileMainScreen;

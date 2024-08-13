@@ -31,7 +31,7 @@ const CategoryList = ({ navigation, route }: CategoryScreenNavigationProp) => {
                 style={{
                     padding: 12,
                     position: 'absolute',
-                    top: 2,
+                    top: 22,
                     left: 2,
                     zIndex: 2
                 }}
@@ -49,6 +49,7 @@ const CategoryList = ({ navigation, route }: CategoryScreenNavigationProp) => {
                             <View style={styles.itemContainer}>
                                 <Image source={{ uri: item.product_images }} style={styles.image} />
                                 <View style={styles.infoContainer}>
+            
                                     <Text style={styles.productName}>{item.name}</Text>
                                     <Text style={styles.productPrice}>${item.cost}</Text>
                                     <TouchableOpacity style={styles.addButton} onPress={() => { }}>

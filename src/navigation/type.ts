@@ -1,5 +1,5 @@
 import {RouteProp} from '@react-navigation/native';
-import {NativeStackScreenProps} from '@react-navigation/native-stack';
+import {NativeStackNavigationProp, NativeStackScreenProps} from '@react-navigation/native-stack';
 import { IProduct } from '../redux/slicers/productSlice/type';
 
 export type RootStackParamList = {
@@ -33,9 +33,7 @@ export type RootStackParamList = {
     product_id : number; 
   };
 
-  OrderList: {
-    address : string;
-  }
+  OrderList: undefined;
 
   OrderScreen: {
     address : string;
@@ -61,6 +59,8 @@ export type RootStackParamList = {
   Address: undefined;
   AddAddress: {id: string};
   Payment: {id: string};
+
+  Footer : undefined;
 
 
 };
@@ -223,3 +223,7 @@ export type PaymentScreenNavigationProp = NativeStackScreenProps<
   RootStackParamList,
   'Payment'
 >;
+
+export type FooterNavigationProp = {
+  navigation: NativeStackNavigationProp<RootStackParamList, 'Dashboard'>;
+};

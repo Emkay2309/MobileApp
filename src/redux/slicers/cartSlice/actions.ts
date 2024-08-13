@@ -22,6 +22,8 @@ export const getCartList = createAsyncThunk(
         headers,
       });
 
+      console.log('cart response in redux' , response.data)
+
       return response.data;
     } catch (error: any) {
       return thunkAPI.rejectWithValue(error.message);
@@ -37,6 +39,8 @@ export const addToCart = createAsyncThunk(
       const formData = new FormData();
       formData.append('product_id', params.product_id);
       formData.append('quantity', params.quantity);
+
+      console.log('prod',formData)
 
       const headers = {
         access_token: params.access_token, // Add your access token to the custom header
@@ -65,19 +69,20 @@ export const editCart = createAsyncThunk(
         'Content-Type': 'multipart/form-data',
       };
 
-      console.log(`${baseUrl}/${editCartItem}`);
-      console.log('-----')
-      console.log(formData);
-      console.log('-----')
-      console.log(headers);
-      console.log('------->')
+      console.log('edit cart with new quantity clicked , in redux ',`${baseUrl}/${editCartItem}`);
+      // console.log('-----')
+      // console.log('formdata : ',formData);
+      // console.log('-----')
+      // console.log(headers);
+      // console.log('------->')
 
       const response = await axios.post(`${baseUrl}/${editCartItem}`, formData, {
         headers,
       });
 
-      return response.data;
+      return response?.data;
     } catch (error: any) {
+      console.log('in error');
       return thunkAPI.rejectWithValue(error.message);
     }
   },
@@ -102,7 +107,7 @@ export const deleteCart = createAsyncThunk(
           headers,
         },
       );
-
+      console.log('in redux --> deleting ' , params.product_id , 'cause quantity is 0')
       return response.data;
     } catch (error: any) {
       return thunkAPI.rejectWithValue(error.message);

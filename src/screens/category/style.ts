@@ -21,11 +21,12 @@ export const styles = StyleSheet.create({
         borderRadius: 15,
         overflow: 'hidden',
         backgroundColor: '#fff',
-        flexDirection : 'row'
+        flexDirection : 'row',
+        width : '100%'
     },
     image: {
         width: '30%',
-        height: 90,
+        height: 100,
         resizeMode: 'contain',
         marginTop : 30,
         marginLeft : 20
@@ -33,10 +34,10 @@ export const styles = StyleSheet.create({
     infoContainer: {
         padding: 15,
         alignItems: 'center',
-        
+        width : '70%'
     },
     productName: {
-        fontSize: 20,
+        fontSize: 15,
         color: '#333',
         fontWeight: 'bold',
         marginBottom: 5,

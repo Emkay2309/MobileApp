@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, Button, ActivityIndicator, ToastAndroid, StyleSheet, Image } from 'react-native';
+import { View, Text, Button, ActivityIndicator, StyleSheet, Image } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState, useAppSelector } from '../../../redux/store/store';
 import { placeOrder } from '../../../redux/slicers/orderSlice/actions';
@@ -14,7 +14,7 @@ import Animated, {
     withRepeat,
     withSequence,
 } from 'react-native-reanimated';
-
+import Toast from 'react-native-simple-toast';
 
 
 
@@ -73,6 +73,13 @@ const OrderScreen = ({ navigation, route }: OrderScreenNavigationProp) => {
                 let a: string = response.user_msg;
                 console.log('a', a);
                 setData(a);
+                handlePress();
+
+
+                setTimeout(()=> {
+                    Toast.show('Keep shopping', Toast.SHORT);
+                    navigation.navigate('Dashboard');
+                },4000)
             } catch (error) {
                 console.log(error);
             }
@@ -85,14 +92,17 @@ const OrderScreen = ({ navigation, route }: OrderScreenNavigationProp) => {
 
         <View style={styles.container}>
             {isLoading ? (
-                <ActivityIndicator size="large" color="#0000ff" />
+                <ActivityIndicator size="large" color="#0000ff" style={{marginTop : 300}}/>
             ) : (
-                <View style={{justifyContent: 'center', alignItems: 'center',}}>
+                <View style={{ justifyContent: 'center', alignItems: 'center', }}>
+                    <Animated.View style={[ animatedStyle]} >
                     <View style={styles.subCon}>
                         <Image source={require('../../../assets/images/tick.png')} style={styles.img} />
                     </View>
-                    <View>
-                        <Text  style={styles.textCon} onPress={() => handlePress()}>{data}</Text>
+                    </Animated.View>
+                    <View >
+                        <Text style={styles.textCon} >{data}</Text>
+                        
                     </View>
                 </View>
             )}
@@ -112,14 +122,14 @@ const styles = StyleSheet.create({
     subCon: {
         height: '50%',
         width: '50%',
-        
+
     },
-    img : {
+    img: {
         height: 200,
-        width : 200
+        width: 200
     },
-    textCon : {
-        marginTop : 100,
-        fontSize : 30
+    textCon: {
+        marginTop: 100,
+        fontSize: 30
     }
 })

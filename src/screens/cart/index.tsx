@@ -1,117 +1,132 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Image, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { Image, FlatList, Text, TouchableOpacity, View, ListRenderItem } from 'react-native';
 import { AppDispatch, RootState } from '../../redux/store/store';
-import { addToCart, editCart, getCartList } from '../../redux/slicers/cartSlice/actions';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import { editCart, getCartList, deleteCart } from '../../redux/slicers/cartSlice/actions'; // Import deleteCart action
 import { useNavigation } from '@react-navigation/native';
-import { RootStackParamList } from '../../navigation/type';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
-import {styles} from './style'
+import { styles } from './style';
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import { RootStackParamList } from '../../navigation/type';
+import { ICartItem } from '../../redux/slicers/cartSlice/type';
+import CartItemShimmer from './shimmer/CartItemShimmer';
 
 const CartScreen: React.FC = () => {
   const dispatch = useDispatch<AppDispatch>();
   const { cart, isLoading } = useSelector((state: RootState) => state.cart);
   const accessToken = useSelector((state: RootState) => state.auth.user?.data?.access_token);
-
   const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList, 'AddressList'>>();
-  
-  // console.log(accessToken);
 
-  const handleAddress = () => {
-    navigation.navigate('AddressList');
-  }
-
-  const handleAdd = async (id : number , quantity : number) => {
-    try {
-      console.log('add to cart start');
-      console.log('sending product -->', 'id : ' , id , "quantity :" , quantity );
-      await dispatch(
-        editCart({
-          access_token: accessToken,
-          product_id: id,
-          quantity: quantity,
-        }),
-      ).unwrap();
-    }
-    catch (error) {
-      console.log(error);
-    }
-  }
-
-  const handleSub = async (id : number , quantity : number) => {
-    try {
-      console.log('add to cart start',accessToken)
-      await dispatch(
-        editCart({
-          access_token: accessToken,
-          product_id: id,
-          quantity: quantity,
-        }),
-      ).unwrap();
-
-    }
-    catch (error) {
-      console.log(error);
-    }
-  }
+  const [localCart, setLocalCart] = useState<ICartItem[]>([]);
 
   useEffect(() => {
     if (accessToken) {
-      const response = dispatch(getCartList({ access_token: accessToken })).unwrap();
-      //console.log('cart reponse -->' ,response);
+      dispatch(getCartList({ access_token: accessToken }))
+        .unwrap()
+        .then((result) => {
+          setLocalCart(result.data); // Set the local cart data after fetching it
+        });
     }
   }, [dispatch, accessToken]);
 
+  const handleAddress = () => {
+    navigation.navigate('AddressList');
+  };
+
+  const handleCount = async (id: number, quantity: number) => {
+    try {
+      if (quantity === 0) {
+        // If quantity is 0, remove the item from the cart
+        await dispatch(
+          deleteCart({
+            access_token: accessToken,
+            product_id: id,
+          }),
+        ).unwrap();
+
+        // Update local state to remove the item
+        setLocalCart((prevCart) => prevCart.filter((item) => item.product_id !== id));
+      } else {
+        // Otherwise, update the quantity
+        await dispatch(
+          editCart({
+            access_token: accessToken,
+            product_id: id,
+            quantity: quantity,
+          }),
+        ).unwrap();
+
+        // Update local state to reflect the new quantity
+        setLocalCart((prevCart) =>
+          prevCart.map((item) =>
+            item.product_id === id ? { ...item, quantity: quantity } : item,
+          ),
+        );
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   if (isLoading) {
     return (
-      <View style={styles.loadingContainer}>
-        <Text>Loading...</Text>
+      <FlatList
+        data={Array.from({ length: 5 })} // Display 5 shimmer items
+        renderItem={() => <CartItemShimmer />}
+        keyExtractor={(_, index) => `shimmer-${index}`}
+        contentContainerStyle={styles.scrollContainer}
+      />
+    );
+  }
+
+  if (!localCart.length) {
+    return (
+      <View style={styles.nullCon}>
+        <MaterialCommunityIcons name="cart" color={'black'} size={300} style={styles.cartIcon} />
+        <Text style={styles.nullText}>Empty Cart</Text>
       </View>
     );
   }
 
-  if(cart === undefined|| cart?.data === null) {
-    return (
-      <View style={styles.nullCon}>
-        <Text style={styles.nullText}>No items in the cart</Text>
+  const renderItem: ListRenderItem<ICartItem> = ({ item }) => (
+    <View key={item.id} style={styles.cartItem}>
+      <Image source={{ uri: item.product.product_images }} style={styles.productImage} />
+      <View style={styles.itemDetails}>
+        <Text style={styles.productName}>{item.product.name}</Text>
+        <Text style={styles.productPrice}>${item.product.cost}</Text>
+        <View style={styles.quantityContainer}>
+          <TouchableOpacity
+            style={styles.quantityBtn}
+            onPress={() => handleCount(item.product_id, item.quantity - 1)}
+          >
+            <Text style={styles.quantityBtnText}>-</Text>
+          </TouchableOpacity>
+          <Text style={styles.quantityText}>{item.quantity}</Text>
+          <TouchableOpacity
+            style={styles.quantityBtn}
+            onPress={() => handleCount(item.product_id, item.quantity + 1)}
+          >
+            <Text style={styles.quantityBtnText}>+</Text>
+          </TouchableOpacity>
+        </View>
       </View>
-    )
-  }
-
-  //console.log(cart);
+    </View>
+  );
 
   return (
     <View style={styles.container}>
-      <ScrollView contentContainerStyle={styles.scrollContainer}>
-        {cart?.data?.map((item) => (
-          <View key={item.id} style={styles.cartItem}>
-            <Image source={{ uri: item.product.product_images }} style={styles.productImage} />
-            <View style={styles.itemDetails}>
-              <Text style={styles.productName}>{item.product.name}</Text>
-              <Text style={styles.productPrice}>${item.product.cost}</Text>
-              <View style={styles.quantityContainer}>
-                <TouchableOpacity
-                  style={styles.quantityBtn}
-                  onPress={() => handleAdd(item.id , item.quantity-1)}
-                >
-                  <Text style={styles.quantityBtnText}>-</Text>
-                </TouchableOpacity>
-                <Text style={styles.quantityText}>{item.quantity}</Text>
-                <TouchableOpacity
-                  style={styles.quantityBtn}
-                onPress={() => handleSub(item.id , item.quantity+1 )}
-                >
-                  <Text style={styles.quantityBtnText}>+</Text>
-                </TouchableOpacity>
-              </View>
-            </View>
-          </View>
-        ))}
-      </ScrollView>
+      <Text style={styles.heading}>My Cart</Text>
+      <View style={{flex : 1}}>
+        <FlatList
+          data={localCart} 
+          renderItem={renderItem}
+          keyExtractor={(item) => item.id.toString()}
+          contentContainerStyle={styles.scrollContainer}
+        />
+      </View>
       <View style={styles.totalContainer}>
         <Text style={styles.totalText}>Total: ${cart?.total?.toFixed(2)}</Text>
-        <TouchableOpacity onPress={() => handleAddress()} style={styles.btn}>
+        <TouchableOpacity onPress={handleAddress} style={styles.btn}>
           <Text style={styles.btnText}>Buy Now</Text>
         </TouchableOpacity>
       </View>
@@ -120,5 +135,3 @@ const CartScreen: React.FC = () => {
 };
 
 export default CartScreen;
-
-

@@ -3,9 +3,10 @@ import { StyleSheet, Text, TextInput, TouchableOpacity, View, Image, KeyboardAvo
 import { useAppSelector, useAppDispatch } from '../../redux/store/store';
 import { getUserAccountDetails, updateDetails } from '../../redux/slicers/authSlice/actions';
 import Fontisto from 'react-native-vector-icons/Fontisto';
+import { ProfileScreenNavigationProp } from '../../navigation/type';
+import {styles} from './style'
 
-
-const ProfileScreen = () => {
+const ProfileScreen = ({navigation} : ProfileScreenNavigationProp) => {
   const dispatch = useAppDispatch();
   const { user } = useAppSelector(state => state.auth);
   const accessToken = user?.data?.access_token;
@@ -34,7 +35,10 @@ const ProfileScreen = () => {
       access_token: accessToken
     };
     dispatch(updateDetails(updatedUser));
+    navigation.navigate('ProfileMain');
   };
+
+  console.log('user : ' , user);
 
   return (
 
@@ -50,7 +54,7 @@ const ProfileScreen = () => {
               <Image source={{ uri: profilePic }} style={styles.pic} />
             ) : (
               <View style={styles.defaultPic}>
-                {gender === 'M' ? (
+                {gender === 'male' ? (
                   <Fontisto name="male" color={'black'} size={100} />
                 ) : (
                   <Fontisto name="female" color={'black'} size={100} />
@@ -108,46 +112,3 @@ const ProfileScreen = () => {
 };
 
 export default ProfileScreen;
-
-const styles = StyleSheet.create({
-  container: {
-    padding: 20,
-    alignItems: 'center',
-  },
-  pic: {
-    height: 170,
-    width: 170,
-    borderRadius: 100,
-    borderWidth: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  defaultPic: {
-    height: '100%',
-    width: '100%',
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  data: {
-    marginTop: 50,
-    width: '100%',
-  },
-  input: {
-    borderBottomWidth: 1,
-    borderBottomColor: '#ccc',
-    marginBottom: 10,
-    padding: 10,
-    width: '100%',
-  },
-  updateButton: {
-    marginTop: 20,
-    padding: 15,
-    backgroundColor: '#007BFF',
-    borderRadius: 5,
-    alignItems: 'center',
-  },
-  updateButtonText: {
-    color: '#fff',
-    fontWeight: 'bold',
-  },
-});

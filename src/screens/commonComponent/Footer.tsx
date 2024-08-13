@@ -1,15 +1,29 @@
 import { StyleSheet, Text, View } from 'react-native'
 import React from 'react'
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons'
+import { FooterNavigationProp } from '../../navigation/type'
 
-const Footer = () => {
+
+interface FooterProps extends FooterNavigationProp {
+    onShopPress: () => void;
+    onHomePress: () => void;
+}
+
+const Footer = ({ navigation, onShopPress, onHomePress }: FooterProps) => {
     return (
         <View style={styles.container}>
             <Text style={styles.headingText}>NeoSTORE</Text>
+
             <View style={{ width: '30%', height: 0.8, backgroundColor: 'white', }} />
+
             <Text style={styles.subText}>Furniture Store</Text>
-            <Text style={styles.subText}>Home</Text>
-            <Text style={styles.subText}>Shop</Text>
+            <Text style={styles.subText} onPress={() => {
+                onHomePress();
+            }}>Home</Text>
+            <Text style={styles.subText} onPress={() => navigation.navigate('OrderList')}>Orders</Text>
+            <Text style={styles.subText} onPress={() => {
+                onShopPress(); // Scroll to Shop Category section
+            }}>Shop</Text>
             <Text style={styles.subText}>Contact</Text>
             <View style={{ width: '100%', height: 0.8, backgroundColor: 'white', }} />
 
@@ -25,12 +39,12 @@ const Footer = () => {
             </View>
 
             <Text style={styles.subsText} >
-                Copyright 
+                Copyright
                 <MaterialCommunityIcons name="copyright" color={'white'} size={20} />
                 2024 Neostore.
             </Text>
-            <Text  style={styles.subsText}> All right reserved</Text>
-    
+            <Text style={styles.subsText}> All right reserved</Text>
+
 
         </View>
     )
@@ -70,13 +84,13 @@ const styles = StyleSheet.create({
         justifyContent: 'space-between',
         marginTop: 20,
     },
-    policy : {
-        flexDirection : 'row',
-        justifyContent : 'space-between',
-        gap : 30,
-        
+    policy: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        gap: 30,
+
     },
-    subsText : {
+    subsText: {
         color: '#FFFFFF',
         fontWeight: '300',
         fontSize: 20,
