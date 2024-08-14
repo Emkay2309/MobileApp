@@ -15,7 +15,7 @@ export const styles = StyleSheet.create({
     },
     scrollContainer: {
       paddingBottom: 100,
-      marginTop : 10
+      //marginTop : 10
     },
     nullCon: {
       flex: 1,
@@ -75,10 +75,7 @@ export const styles = StyleSheet.create({
       fontSize: 16,
     },
     totalContainer: {
-      position: 'absolute',
-      bottom: 10,
-      left: 10,
-      right: 10,
+      position: 'relative',
       paddingHorizontal: 20,
       paddingVertical: 20,
       backgroundColor: 'rgba(255, 171, 0, 0.60)',

@@ -62,8 +62,17 @@ export type RootStackParamList = {
 
   Footer : undefined;
 
+  Demo : undefined;
+
 
 };
+
+
+//Demo 
+export type DemoScreenNavigationProp = NativeStackScreenProps<
+  RootStackParamList,
+  'Demo'
+>;
 
 //check navigation types
 export type BottomTabNavScreenNavigationProp = NativeStackScreenProps<

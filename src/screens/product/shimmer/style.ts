@@ -1,0 +1,106 @@
+import { StyleSheet } from 'react-native';
+
+export const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    padding: 20,
+    backgroundColor: '#fff',
+    borderRadius: 10,
+    margin: 10,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.2,
+    shadowRadius: 8,
+    elevation: 5,
+  },
+  backIcon: {
+    position: 'absolute',
+    top: 20,
+    left: 20,
+    width: 28,
+    height: 28,
+    zIndex: 2,
+    borderRadius: 14,
+  },
+  headingText: {
+    width: '60%',
+    height: 30,
+    marginVertical: 15,
+    alignSelf: 'center',
+    borderRadius: 5,
+  },
+  imageContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginBottom: 15,
+  },
+  chevronIcon: {
+    width: 36,
+    height: 36,
+    borderRadius: 18,
+  },
+  productImage: {
+    width: 250,
+    height: 250,
+    borderRadius: 10,
+    marginHorizontal: 10,
+  },
+  productDescription: {
+    width: '90%',
+    height: 60,
+    borderRadius: 5,
+    marginBottom: 15,
+    alignSelf: 'center',
+  },
+  productDetails: {
+    borderTopWidth: 1,
+    borderTopColor: '#ddd',
+    paddingTop: 10,
+  },
+  productCost: {
+    width: '40%',
+    height: 20,
+    borderRadius: 5,
+    marginBottom: 5,
+  },
+  productProducer: {
+    width: '50%',
+    height: 20,
+    borderRadius: 5,
+    marginBottom: 5,
+  },
+  ratingContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginBottom: 5,
+  },
+  starIcon: {
+    width: 100,
+    height: 20,
+    borderRadius: 5,
+  },
+  productRating: {
+    width: '20%',
+    height: 20,
+    borderRadius: 5,
+    marginLeft: 5,
+  },
+  buttonContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    marginTop: 20,
+  },
+  addToCartButton: {
+    flex: 1,
+    height: 50,
+    borderRadius: 5,
+    marginRight: 10,
+  },
+  buyNowButton: {
+    flex: 1,
+    height: 50,
+    borderRadius: 5,
+    marginLeft: 10,
+  },
+});

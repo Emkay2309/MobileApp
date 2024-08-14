@@ -47,6 +47,7 @@ const ForgetPassword = ({ navigation }: ForgotPasswordScreenNavigationProp) => {
         console.log(resultAction);
         if (forgotPassword.fulfilled.match(resultAction)) {
           Toast.show('New password sent on email', Toast.SHORT);
+          navigation.navigate('Login');
         } else {
           Toast.show('Enter a registered email', Toast.SHORT);
         }

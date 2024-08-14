@@ -22,6 +22,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import LogoutModal from './components/logoutModal';
 import { styles } from './style'
 import { getCartList } from '../../redux/slicers/cartSlice/actions';
+import { setUser } from '../../redux/slicers/authSlice/authSlice';
 
 
 const Dashboard = ({ navigation }: DashboardNavigationProp) => {
@@ -55,6 +56,12 @@ const Dashboard = ({ navigation }: DashboardNavigationProp) => {
     const logout = async () => {
         await AsyncStorage.removeItem('access_token');
         await AsyncStorage.removeItem('alreadyLaunched');
+        dispatch(setUser({
+            status: 0,
+            data: null,
+            message: '',
+            user_msg: ''
+        }));
         navigation.navigate('Login');
     }
 

@@ -68,6 +68,16 @@ const CartScreen: React.FC = () => {
     }
   };
 
+  const navigateToProductDetail = (product_id: number) => {
+    console.log('go to details with id : ' , product_id);
+    navigation.navigate('ProductDetail', {
+      product_id,
+    });
+
+  };
+
+  
+
   if (isLoading) {
     return (
       <FlatList
@@ -90,7 +100,9 @@ const CartScreen: React.FC = () => {
 
   const renderItem: ListRenderItem<ICartItem> = ({ item }) => (
     <View key={item.id} style={styles.cartItem}>
-      <Image source={{ uri: item.product.product_images }} style={styles.productImage} />
+      <TouchableOpacity onPress={()=>navigateToProductDetail(item.product_id)}>
+        <Image source={{ uri: item.product.product_images }} style={styles.productImage} />
+      </TouchableOpacity>
       <View style={styles.itemDetails}>
         <Text style={styles.productName}>{item.product.name}</Text>
         <Text style={styles.productPrice}>${item.product.cost}</Text>
@@ -116,9 +128,9 @@ const CartScreen: React.FC = () => {
   return (
     <View style={styles.container}>
       <Text style={styles.heading}>My Cart</Text>
-      <View style={{flex : 1}}>
+      <View style={{ flex: 1 }}>
         <FlatList
-          data={localCart} 
+          data={localCart}
           renderItem={renderItem}
           keyExtractor={(item) => item.id.toString()}
           contentContainerStyle={styles.scrollContainer}

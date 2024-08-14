@@ -1,5 +1,5 @@
-import {createAsyncThunk, createSlice, nanoid} from '@reduxjs/toolkit';
-import {IInitialState} from './type';
+import {PayloadAction, createAsyncThunk, createSlice, nanoid} from '@reduxjs/toolkit';
+import {IInitialState, IUser} from './type';
 
 import {
   registerUser,
@@ -58,6 +58,10 @@ export const authSlice = createSlice({
         );
         state.addressData.lastSelectedAddressId = action.payload.id;
       }
+    },
+
+    setUser: (state, action: PayloadAction<IUser>) => {
+      state.user = action.payload;
     },
   },
   extraReducers(builder) {
@@ -138,8 +142,9 @@ export const authSlice = createSlice({
         state.isError = true;
       })
       
+      
   },
 });
 export default authSlice.reducer;
-export const {logout, selectAddress, addAddress, updateAddress, deleteAddress} =
+export const {logout, selectAddress, addAddress, updateAddress, deleteAddress , setUser} =
   authSlice.actions;

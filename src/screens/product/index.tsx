@@ -7,6 +7,7 @@ import { getProduct, setProductRating } from '../../redux/slicers/productSlice/a
 import { addToCart, getCartList } from '../../redux/slicers/cartSlice/actions';
 import { useSelector } from 'react-redux';
 import { styles } from './style'
+import ShimmerProductDetail from './shimmer';
 
 const ProductScreen = ({
   navigation,
@@ -15,18 +16,24 @@ const ProductScreen = ({
   const dispatch = useAppDispatch();
 
   const { product_id } = route.params;
+
+  console.log(product_id , 'when inside');
+  
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [addedToCart, setAddedToCart] = useState(false);
 
-  useEffect(() => {
-    dispatch(getProduct({ product_id }));
-  }, [dispatch, product_id , ]);
+  
 
   const productResponse = useAppSelector(state => state.product.productData);
   const product = productResponse?.data;
 
+  console.log(product);
 
   const accessToken = useSelector((state: RootState) => state.auth.user?.data?.access_token);
+
+  useEffect(() => {
+    dispatch(getProduct({ product_id }));
+  }, [ dispatch , product_id , ]);
 
   async function handleAddToCart() {
     try {
@@ -57,7 +64,7 @@ const ProductScreen = ({
   if (!product) {
     return (
       <View style={styles.container}>
-        <Text style={styles.loadingText}>Loading...</Text>
+        <ShimmerProductDetail />
       </View>
     );
   }
@@ -115,7 +122,6 @@ const ProductScreen = ({
 
   return (
     <ScrollView contentContainerStyle={styles.scrollViewContainer}>
-      <View style={styles.container}>
         <MaterialCommunityIcons
           name="backburger"
           size={28}
@@ -123,6 +129,7 @@ const ProductScreen = ({
           color={'#333'}
           onPress={() => navigation.goBack()}
         />
+      <View style={styles.container}>
         <Text style={styles.headingText}>{product.name}</Text>
         <View style={styles.imageContainer}>
           <TouchableOpacity onPress={handlePrevImage} disabled={currentImageIndex === 0}>
