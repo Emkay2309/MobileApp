@@ -6,16 +6,27 @@ export const styles = StyleSheet.create({
         padding: 20,
         backgroundColor: '#f8f8f8',
     },
+    headingContainer: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'space-between',
+        marginBottom: 20,
+        marginTop: 10,
+    },
+    backBtn: {
+        marginRight: 10,
+    },
     heading: {
         fontSize: 25,
         fontWeight: 'bold',
-        marginBottom: 20,
-        color: '#333333',
-        alignItems : 'center'
+        color: '#333',
+        flex: 1,
+        textAlign: 'center',
     },
     itemContainer: {
-        flexDirection: 'row',
+        flexDirection: 'row',  
         alignItems: 'center',
+        justifyContent: 'space-between', 
         backgroundColor: '#ffffff',
         padding: 15,
         marginBottom: 10,
@@ -27,6 +38,7 @@ export const styles = StyleSheet.create({
         elevation: 1,
     },
     textContainer: {
+        flex: 1,  // Allows the text container to take available space
         marginLeft: 10,
     },
     name: {
@@ -43,20 +55,28 @@ export const styles = StyleSheet.create({
         padding: 5,
         borderRadius: 10,
         width: 300,
-        height : 50,
+        height: 50,
         marginTop: 10,
-        alignSelf : 'center',
-        textAlign : 'center',
-        justifyContent : 'center',
-   
-        
+        alignSelf: 'center',
+        justifyContent: 'center',
     },
     btnText: {
         fontWeight: '500',
         textAlign: 'center',
-        fontSize : 20
+        fontSize: 20,
     },
-    backIcon : {
-
+    removeBtn: {
+        backgroundColor: 'lightpink',
+        padding: 5,
+        borderRadius: 10,
+        width: 70,
+        height: 30,
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+    removeText: {
+        fontWeight: '300',
+        fontSize: 15,
+        color: '#333',
     },
 });

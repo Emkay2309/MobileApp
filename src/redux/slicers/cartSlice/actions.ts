@@ -22,7 +22,7 @@ export const getCartList = createAsyncThunk(
         headers,
       });
 
-      console.log('cart response in redux' , response.data)
+      //console.log('cart response in redux' , response.data)
 
       return response.data;
     } catch (error: any) {

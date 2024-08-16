@@ -14,8 +14,9 @@ import CartItemShimmer from './shimmer/CartItemShimmer';
 const CartScreen: React.FC = () => {
   const dispatch = useDispatch<AppDispatch>();
   const { cart, isLoading } = useSelector((state: RootState) => state.cart);
+  
   const accessToken = useSelector((state: RootState) => state.auth.user?.data?.access_token);
-  const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList, 'AddressList'>>();
+  const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList, 'Cart'>>();
 
   const [localCart, setLocalCart] = useState<ICartItem[]>([]);
 
@@ -89,7 +90,7 @@ const CartScreen: React.FC = () => {
     );
   }
 
-  if (!localCart.length) {
+  if (!localCart?.length) {
     return (
       <View style={styles.nullCon}>
         <MaterialCommunityIcons name="cart" color={'black'} size={300} style={styles.cartIcon} />

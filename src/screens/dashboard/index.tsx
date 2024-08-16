@@ -1,4 +1,4 @@
-import { Button, Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
+import { Button, Image, StyleSheet, Text, TouchableHighlight, TouchableOpacity, View } from 'react-native'
 import React, { useEffect, useRef, useState } from 'react'
 import { ScrollView } from 'react-native-gesture-handler'
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
@@ -27,15 +27,15 @@ import { setUser } from '../../redux/slicers/authSlice/authSlice';
 
 const Dashboard = ({ navigation }: DashboardNavigationProp) => {
     // const navigation = useNavigation<CartNavigatorScreenNavigationProp['navigation']>();
-    
+
     const dispatch = useDispatch<AppDispatch>();
     const accessToken = useSelector((state: RootState) => state.auth.user?.data?.access_token);
-    
+
 
     const handleCart = () => {
         navigation.navigate('CartNavigator');
     }
-    const { cart } = useSelector((state : RootState) => state.cart);
+    const { cart } = useSelector((state: RootState) => state.cart);
     let total = cart?.count;
 
     //console.log('cart : ', total);
@@ -162,6 +162,8 @@ const Dashboard = ({ navigation }: DashboardNavigationProp) => {
                         backgroundColor="black"
                         textColor="white"
                     />
+
+                    
                 </View>
 
                 {/** Intro image with animation */}

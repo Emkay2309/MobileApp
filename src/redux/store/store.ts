@@ -6,12 +6,14 @@ import cartSlice from '../slicers/cartSlice/cartSlice';
 import {persistStore, persistReducer} from 'redux-persist';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import orderSlice from '../slicers/orderSlice/orderSlice';
+import addressSlice from '../slicers/addressSlice/addressSlice';
 
 const reducers = combineReducers({
   auth: authSlice,
   product: productSlice,
   cart: cartSlice,
   order: orderSlice,
+  addresss : addressSlice,
 });
 
 const persistConfig = {

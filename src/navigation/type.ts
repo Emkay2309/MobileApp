@@ -41,6 +41,7 @@ export type RootStackParamList = {
 
   AddressList : undefined;
 
+
   NewArrivalCard : {item : IProduct};
 
   HomeNavigator: undefined;
@@ -57,7 +58,7 @@ export type RootStackParamList = {
   
   OrderDetail: {order_id: number; created: string};
   Address: undefined;
-  AddAddress: {id: string};
+  AddAddress: undefined;
   Payment: {id: string};
 
   Footer : undefined;

@@ -1,7 +1,7 @@
 import {createSlice} from '@reduxjs/toolkit';
-
 import {IInitialState} from './type';
 import {addToCart, getCartList, editCart, deleteCart} from './actions';
+
 const initialState: IInitialState = {
   cart: null,
   status: null,

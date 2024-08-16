@@ -85,6 +85,7 @@ const OrderScreen = ({ navigation, route }: OrderScreenNavigationProp) => {
             }
         };
         fetchData();
+        return;
     }, []);
 
 
