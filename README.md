@@ -5,14 +5,13 @@ This is a new [**React Native**](https://reactnative.dev) project, bootstrapped 
 Here are some images from the project:
 
 <p align="center">
-   <img src="./projects/c1.jpg" alt="Image 1" width="200"/>
-   <img src="./projects/c2.jpg" alt="Image 2" width="200"/>
-   <img src="./projects/c3.jpg" alt="Image 3" width="200"/>
-   <img src="./projects/c4.jpg" alt="Image 4" width="200"/>
-   <img src="./projects/c5.jpg" alt="Image 5" width="200"/>
-   <img src="./projects/c6.jpg" alt="Image 6" width="200"/>
+   <img src="./p1.png" alt="Image 1" width="200"/>
+   <img src="./p2.png" alt="Image 2" width="200"/c
+   <img src="./p3.png" alt="Image 3" width="200"/c
+   <img src="./p4.png" alt="Image 4" width="200"/c
+   <img src="./p5.png" alt="Image 5" width="200"/c
+   <img src="./p6.png" alt="Image 6" width="200"/>c
 </p>
-
 # Getting Started
 
 >**Note**: Make sure you have completed the [React Native - Environment Setup](https://reactnative.dev/docs/environment-setup) instructions till "Creating a new application" step, before proceeding.
