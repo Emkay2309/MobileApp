@@ -4,7 +4,7 @@ This is a new [**React Native**](https://reactnative.dev) project, bootstrapped 
 
 Here are some images from the project:
 
-![Image 1](./c1.jpg)
+![projects](./c1.jpg)
 ![Image 2](./c2.jpg)
 ![Image 3](./c3.jpg)
 ![Image 4](./c4.jpg)
