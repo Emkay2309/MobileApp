@@ -4,12 +4,12 @@ This is a new [**React Native**](https://reactnative.dev) project, bootstrapped 
 
 Here are some images from the project:
 
-![Image 1](./projects/c1.jpg)
-![Image 2](./projects/c2.jpg)
-![Image 3](./projects/c3.jpg)
-![Image 4](./projects/c4.jpg)
-![Image 5](./projects/c5.jpg)
-![Image 6](./projects/c6.jpg)
+<img src="./projects/c1.jpg" alt="Image 1" width="300"/>
+<img src="./projects/c2.jpg" alt="Image 2" width="300"/>
+<img src="./projects/c3.jpg" alt="Image 3" width="300"/>
+<img src="./projects/c4.jpg" alt="Image 4" width="300"/>
+<img src="./projects/c5.jpg" alt="Image 5" width="300"/>
+<img src="./projects/c6.jpg" alt="Image 6" width="300"/>
 
 # Getting Started
 
