@@ -52,7 +52,7 @@ const ProductScreen = ({
       }, 2000);
 
       console.log('add cart done');
-      navigation.navigate('Cart');
+      navigation.navigate('CartNavigator');
     } catch (error) {
       console.log(error);
       setAddedToCart(false);

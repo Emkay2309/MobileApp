@@ -16,7 +16,6 @@ const AddressList = ({ navigation }: AddressListScreenNavigationProp) => {
     const addressArr = useSelector((state : RootState) => state.addresss.addressArr);
     
     const dispatch = useDispatch();
-    
     //console.log('Redux add :', addressArr );
 
     // useEffect(()=> {

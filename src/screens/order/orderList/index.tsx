@@ -49,7 +49,12 @@ const OrderList = ({ navigation }: OrderListScreenNavigationProp) => {
     const renderItem = ({ item }: { item: IOrderItem }) => (
         <TouchableOpacity
             style={styles.itemContainer}
-
+            onPress={() =>
+                navigation.navigate('OrderDetail', {
+                    order_id: item.id,
+                    created: item.created,
+                })
+            }
         >
             <View style={styles.textContainer}>
                 <View>
